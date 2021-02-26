@@ -1,0 +1,23 @@
+<!--
+  Copyright: 2016-2020 ROS小课堂 www.corvin.cn
+  Description:robot启动时最先需要启动的launch文件，主要加载各基础功能模块启动。
+    首先就需要启动机器人的urdf文件,这样就可以在rviz中可视化显示机器人模型.然后
+    启动下位机arduino的程序,上下位机建立连接,这样上位机就可以发送控制命令.接下来
+    启动IMU模块,开始发布姿态信息.接下来就开始进行信息融合,使用imu信息和轮式里程计
+    这样得出的里程计更为准确.在这里将启动一个语音交互系统的launch文件,该启动文件
+    将启动所有与语音交互相关的节点.
+  Author: corvin
+  History:
+    20190722:init this file.
+    20200102:增加启动imu节点和robot_pose_ekf的节点功能.
+    20200404:增加启动语音交互系统相关的节点.
+-->
+<launch>
+    <!-- (1) startup mobilebase arduino launch -->
+    <include file="$(find ros_arduino_python)/launch/arduino.launch" />
+
+    <!-- (2) startup temp control-->
+    <node pkg="temp_bringup" type="temp_control.py" name="temp_control" output="screen">
+    </node>
+
+</launch>
